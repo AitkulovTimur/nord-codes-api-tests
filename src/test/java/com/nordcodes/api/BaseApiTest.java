@@ -1,6 +1,7 @@
 package com.nordcodes.api;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.nordcodes.api.mock.ExternalServiceMock;
 import com.nordcodes.api.support.NordCodesAppRunner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
@@ -22,6 +23,7 @@ import static com.nordcodes.api.config.ConfigReader.CONFIG;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseApiTest {
     protected WireMockServer wireMockServer;
+    protected ExternalServiceMock externalServiceMock;
     private NordCodesAppRunner nordCodesAppRunner;
 
     /**
@@ -38,12 +40,17 @@ public abstract class BaseApiTest {
     protected void globalSetUp() {
         try {
             startWireMock();
+            configureTestHelpers();
             startNordCodesApp();
             configureRestAssured();
         } catch (RuntimeException e) {
             globalTearDown();
             throw e;
         }
+    }
+
+    private void configureTestHelpers() {
+        externalServiceMock = new ExternalServiceMock(wireMockServer);
     }
 
     @BeforeEach
