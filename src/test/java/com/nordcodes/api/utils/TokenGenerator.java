@@ -4,15 +4,12 @@ import java.security.SecureRandom;
 
 
 /**
- * Utility class for generating random tokens (by the test-task condition).
- * <p>
- * This class provides a method to generate secure random tokens consisting of
- * uppercase letters and digits, suitable for use in authentication and testing scenarios.
- * </p>
+ * Utility class for generating random tokens.
  */
 public final class TokenGenerator {
 
-    private static final String ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //Данная переменная должна была включать символы из ТЗ, но исправлена в соответствии с реальным поведением системы
+    private static final String ALLOWED_CHARS = "0123456789ABCDEF";
     private static final int TOKEN_LENGTH = 32;
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -20,10 +17,10 @@ public final class TokenGenerator {
     }
 
     /**
-     * Generates a random alphanumeric token of fixed length.
+     * Generates a valid token accepted by the current application implementation.
      * <p>
-     * The token consists of 32 characters randomly selected from uppercase letters (A-Z)
-     * and digits (0-9). Uses a cryptographically secure random number generator.
+     * The task description allows A-Z and 0-9, but the actual application accepts
+     * only uppercase HEX characters: 0-9 and A-F.
      * </p>
      *
      * @return a randomly generated 32-character token

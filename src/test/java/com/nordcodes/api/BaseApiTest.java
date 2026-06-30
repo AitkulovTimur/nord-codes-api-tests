@@ -1,7 +1,9 @@
 package com.nordcodes.api;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.nordcodes.api.client.NordCodesApiClient;
 import com.nordcodes.api.mock.ExternalServiceMock;
+import com.nordcodes.api.steps.NordCodesAppResponseSteps;
 import com.nordcodes.api.support.NordCodesAppRunner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
@@ -23,8 +25,11 @@ import static com.nordcodes.api.config.ConfigReader.CONFIG;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseApiTest {
     protected WireMockServer wireMockServer;
-    protected ExternalServiceMock externalServiceMock;
     private NordCodesAppRunner nordCodesAppRunner;
+
+    protected ExternalServiceMock externalServiceMock;
+    protected NordCodesApiClient nordCodesApiClient;
+    protected NordCodesAppResponseSteps nordCodesAppResponseSteps;
 
     /**
      * Sets up the test environment before all tests.
@@ -51,6 +56,8 @@ public abstract class BaseApiTest {
 
     private void configureTestHelpers() {
         externalServiceMock = new ExternalServiceMock(wireMockServer);
+        nordCodesApiClient = new NordCodesApiClient();
+        nordCodesAppResponseSteps = new NordCodesAppResponseSteps();
     }
 
     @BeforeEach
@@ -71,10 +78,6 @@ public abstract class BaseApiTest {
         stopWireMock();
     }
 
-    protected boolean isNordCodesAppRunning() {
-        return nordCodesAppRunner != null && nordCodesAppRunner.isNordCodesAppStarted();
-    }
-
     private void startWireMock() {
         wireMockServer = new WireMockServer(
                 options().port(CONFIG.mockPort())
@@ -89,6 +92,10 @@ public abstract class BaseApiTest {
 
     private void configureRestAssured() {
         RestAssured.baseURI = CONFIG.nordcodesAppUrl();
+
+        if (CONFIG.isLogIfValidationFails()) {
+            RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        }
     }
 
     private void stopNordCodesApp() {

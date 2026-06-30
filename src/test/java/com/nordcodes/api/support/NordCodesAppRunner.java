@@ -37,6 +37,11 @@ public class NordCodesAppRunner {
     private final String testClassName;
     private Process nordCodesAppProcess;
 
+    /**
+     * Creates an application runner for a test class.
+     *
+     * @param testClassName test class name used in application log file names
+     */
     public NordCodesAppRunner(String testClassName) {
         this.testClassName = testClassName;
     }

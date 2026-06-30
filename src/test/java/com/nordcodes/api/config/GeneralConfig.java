@@ -50,4 +50,12 @@ public interface GeneralConfig extends Config {
 
     @Key("timeouts.poll_milliseconds")
     long pollMilliseconds();
+
+    @Key("log.is_detailed_log")
+    @DefaultValue("false")
+    boolean isDetailedLog();
+
+    @Key("log.is_log_if_validation_fails")
+    @DefaultValue("true")
+    boolean isLogIfValidationFails();
 }
