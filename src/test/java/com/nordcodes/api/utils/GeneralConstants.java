@@ -7,7 +7,11 @@ package com.nordcodes.api.utils;
  * including endpoint paths, header names, content types, and action types.
  * </p>
  */
-public class GeneralConstants {
+public final class GeneralConstants {
+
+    private GeneralConstants() {
+    }
+
     public static final String EXTERNAL_AUTH_PATH = "/auth";
     public static final String EXTERNAL_DO_ACTION_PATH = "/doAction";
     public static final String ENDPOINT_PATH = "/endpoint";
@@ -20,6 +24,8 @@ public class GeneralConstants {
 
     public static final String TOKEN_FIELD_NAME = "token";
     public static final String ACTION_FIELD_NAME = "action";
+    public static final String RESULT_FIELD_NAME = "result";
+    public static final String MESSAGE_FIELD_NAME = "message";
 
     /**
      * Enumeration of available action types for the NordCodes application.
