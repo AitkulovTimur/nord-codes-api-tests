@@ -72,12 +72,11 @@ jobs:
           allure_history: allure-history
 
       - name: Deploy Allure report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
 #       TODO: заменить на if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
 #       чтобы pages обновлялись только после push в main
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-          force_orphan: true
+          branch: gh-pages
+          folder: allure-history
+          clean: true
